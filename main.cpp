@@ -46,21 +46,24 @@ int main() {
 
     ///////placement new case:
     std::cout << "placement new Case\n";
+
+    std::cout << "Size of Base is : " << sizeof (Base) << '\n';
     char* memory = new char[10 * sizeof (Base)];
 
-    Base* obj1 = new (&memory[0]) Base();
-    Base* obj2 = new (&memory[4]) Base();
-    Base* obj3 = new (&memory[8]) Base();
+    /*since the size of Base is 16 (because  we declare a virtual destructor)
+     * we are using increments of 16.
+     */
+
+    Base* obj1 = new (&memory[0]) Base(); //memory location is explicitly indicated here
+    Base* obj2 = new (&memory[16]) Base(); //memory location is explicitly indicated here
+    Base* obj3 = new (&memory[32]) Base(); //memory location is explicitly indicated here
 
     obj1->~Base();
     obj2->~Base();
     obj3->~Base();
 
-    delete memory;
+    delete[] memory;
 
-
-
-
-    return 0;
+    return 1;
 }
 
